@@ -1,12 +1,36 @@
-// import React from "react"; // not needed because .jsx - see Pizza.jsx
+// import React from "react"; // not needed because .jsx
 import { createRoot } from "react-dom/client";
-
+import NotesList from './components/NotesList';
+import { useState } from "react";
+import { nanoid } from 'nanoid';
+ 
 const App = () => {
-  // in jsx, tags are lowercase, while elements created in react go in their place
-  // but are capitalized. see: "Pizza" below
+    const [notes, setNotes] = useState([{
+            id: nanoid(),
+            text: "lorem ipsum somethin",
+            date: "13/32/2027"
+        },
+        {
+            id: nanoid(),
+            text: "lorem ipsum second",
+            date: "14/32/2027"
+        },
+        {
+            id: nanoid(),
+            text: "lorem ipsum third",
+            date: "15/32/2027"
+        },
+    ]);
+
   return (
-    <div>
-    </div>
+    // <nav class="main-navbar">
+    //         <a href="#" class="back-button">
+    //             <img src="./media/back-button.webp" alt="clickable back button image" />
+    //         </a>
+    // </nav>
+        <div className="container">
+            <NotesList notes={notes}/>
+        </div>
   );
 };
 

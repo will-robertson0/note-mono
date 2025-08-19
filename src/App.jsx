@@ -1,9 +1,10 @@
 // import React from "react"; // not needed because .jsx
 import { createRoot } from "react-dom/client";
-import NotesList from "./components/NotesList";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { nanoid } from "nanoid";
-import Search from './components/Search';
+import NotesList from "./components/NotesList";
+import Search from "./components/Search";
+import Header from "./components/Header";
 
 const App = () => {
   const [notes, setNotes] = useState([
@@ -23,6 +24,26 @@ const App = () => {
       date: "15/32/2027",
     },
   ]);
+
+  const [searchText, setSearchText] = useState("");
+
+  const [darkMode, setDarkMode] = useState(false);
+
+  useEffect(() => {
+    const savedNotes = JSON.parse(
+      localStorage.getItem('react-notes-app-data')
+    );
+
+    if(savedNotes) {
+      setNotes(savedNotes);
+    }
+  }, []); // empty dependency array runs once on first load
+
+  useEffect(() => {
+    localStorage.setItem(
+      'react-notes-app-data',
+      JSON.stringify(notes))
+  }, [notes]);
 
   const addNote = (text) => {
     const date = new Date();
@@ -46,13 +67,18 @@ const App = () => {
     //             <img src="./media/back-button.webp" alt="clickable back button image" />
     //         </a>
     // </nav>
-    <div className="container">
-      <Search/>
-      <NotesList
-        notes={notes}
-        handleAddNote={addNote}
-        handleDeleteNote={deleteNote}
-      />
+    <div className={`${darkMode && 'dark-mode'}`}>
+      <div className="container">
+        <Header handleToggleDarkMode={setDarkMode} />
+        <Search handleSearchNote={setSearchText} />
+        <NotesList
+          notes={notes.filter((note) =>
+            note.text.toLowerCase().includes(searchText),
+          )}
+          handleAddNote={addNote}
+          handleDeleteNote={deleteNote}
+        />
+      </div>
     </div>
   );
   // "prop drilling":

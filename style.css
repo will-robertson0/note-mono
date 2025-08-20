@@ -14,6 +14,7 @@ body {
     display: flex;
     align-items: center;
     justify-content: space-between;
+    font-family: "Lucida Console", "Courier New", monospace;
 }
 
 .dark-mode {
@@ -34,6 +35,7 @@ h1 {
     margin-left: auto;
     padding: 1rem;
     min-height: 100vh;
+    font-family: "Lucida Console", "Courier New", monospace;
 }
 
 .notes-list {
@@ -69,7 +71,8 @@ textarea:focus {
 }
 
 .note {
-    background-color: #555555;
+    background-color: #090909;
+    color: #dddddd;
     border-radius: 10px;
     padding: 1rem;
     min-height: 170px;
@@ -92,7 +95,7 @@ textarea:focus {
 .search {
     display: flex;
     align-items: center;
-    background-color: #444455;
+    background-color: #cccccc;
     border-radius: 10px;
     padding: 5px;
     margin-bottom: 1.5em;
@@ -100,7 +103,7 @@ textarea:focus {
 
 .search input {
     border: none;
-    background-color: #444455;
+    background-color: #cccccc;
     width: 100%;
 }
 

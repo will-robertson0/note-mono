@@ -30,19 +30,15 @@ const App = () => {
   const [darkMode, setDarkMode] = useState(false);
 
   useEffect(() => {
-    const savedNotes = JSON.parse(
-      localStorage.getItem('react-notes-app-data')
-    );
+    const savedNotes = JSON.parse(localStorage.getItem("react-notes-app-data"));
 
-    if(savedNotes) {
+    if (savedNotes) {
       setNotes(savedNotes);
     }
   }, []); // empty dependency array runs once on first load
 
   useEffect(() => {
-    localStorage.setItem(
-      'react-notes-app-data',
-      JSON.stringify(notes))
+    localStorage.setItem("react-notes-app-data", JSON.stringify(notes));
   }, [notes]);
 
   const addNote = (text) => {
@@ -67,7 +63,7 @@ const App = () => {
     //             <img src="./media/back-button.webp" alt="clickable back button image" />
     //         </a>
     // </nav>
-    <div className={`${darkMode && 'dark-mode'}`}>
+    <div className={`${darkMode && "dark-mode"}`}>
       <div className="container">
         <Header handleToggleDarkMode={setDarkMode} />
         <Search handleSearchNote={setSearchText} />

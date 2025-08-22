@@ -10,65 +10,83 @@
 
 // Import Routes
 
-import { Route as rootRoute } from "./routes/__root";
-import { Route as NotesListImport } from "./routes/notesList";
+import { Route as rootRoute } from './routes/__root'
+import { Route as EditImport } from './routes/edit'
+import { Route as IndexImport } from './routes/index'
 
 // Create/Update Routes
 
-const NotesListRoute = NotesListImport.update({
-  path: "/notesList",
+const EditRoute = EditImport.update({
+  path: '/edit',
   getParentRoute: () => rootRoute,
-} as any);
+} as any)
+
+const IndexRoute = IndexImport.update({
+  path: '/',
+  getParentRoute: () => rootRoute,
+} as any)
 
 // Populate the FileRoutesByPath interface
 
-declare module "@tanstack/react-router" {
+declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
-    "/notesList": {
-      id: "/notesList";
-      path: "/notesList";
-      fullPath: "/notesList";
-      preLoaderRoute: typeof NotesListImport;
-      parentRoute: typeof rootRoute;
-    };
+    '/': {
+      id: '/'
+      path: '/'
+      fullPath: '/'
+      preLoaderRoute: typeof IndexImport
+      parentRoute: typeof rootRoute
+    }
+    '/edit': {
+      id: '/edit'
+      path: '/edit'
+      fullPath: '/edit'
+      preLoaderRoute: typeof EditImport
+      parentRoute: typeof rootRoute
+    }
   }
 }
 
 // Create and export the route tree
 
 export interface FileRoutesByFullPath {
-  "/notesList": typeof NotesListRoute;
+  '/': typeof IndexRoute
+  '/edit': typeof EditRoute
 }
 
 export interface FileRoutesByTo {
-  "/notesList": typeof NotesListRoute;
+  '/': typeof IndexRoute
+  '/edit': typeof EditRoute
 }
 
 export interface FileRoutesById {
-  __root__: typeof rootRoute;
-  "/notesList": typeof NotesListRoute;
+  __root__: typeof rootRoute
+  '/': typeof IndexRoute
+  '/edit': typeof EditRoute
 }
 
 export interface FileRouteTypes {
-  fileRoutesByFullPath: FileRoutesByFullPath;
-  fullPaths: "/notesList";
-  fileRoutesByTo: FileRoutesByTo;
-  to: "/notesList";
-  id: "__root__" | "/notesList";
-  fileRoutesById: FileRoutesById;
+  fileRoutesByFullPath: FileRoutesByFullPath
+  fullPaths: '/' | '/edit'
+  fileRoutesByTo: FileRoutesByTo
+  to: '/' | '/edit'
+  id: '__root__' | '/' | '/edit'
+  fileRoutesById: FileRoutesById
 }
 
 export interface RootRouteChildren {
-  NotesListRoute: typeof NotesListRoute;
+  IndexRoute: typeof IndexRoute
+  EditRoute: typeof EditRoute
 }
 
 const rootRouteChildren: RootRouteChildren = {
-  NotesListRoute: NotesListRoute,
-};
+  IndexRoute: IndexRoute,
+  EditRoute: EditRoute,
+}
 
 export const routeTree = rootRoute
   ._addFileChildren(rootRouteChildren)
-  ._addFileTypes<FileRouteTypes>();
+  ._addFileTypes<FileRouteTypes>()
 
 /* prettier-ignore-end */
 
@@ -78,11 +96,15 @@ export const routeTree = rootRoute
     "__root__": {
       "filePath": "__root.jsx",
       "children": [
-        "/notesList"
+        "/",
+        "/edit"
       ]
     },
-    "/notesList": {
-      "filePath": "notesList.jsx"
+    "/": {
+      "filePath": "index.jsx"
+    },
+    "/edit": {
+      "filePath": "edit.jsx"
     }
   }
 }

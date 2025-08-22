@@ -1,9 +1,9 @@
 import { createRootRoute, Outlet } from "@tanstack/react-router";
-import { TanStackRouterDevtools } from "@tanstack/router-devtools";
-import { useEffect, useState, useContext } from "react";
-import { nanoid } from "nanoid";
+// import { TanStackRouterDevtools } from "@tanstack/router-devtools";
+import { useContext, useState, useEffect } from "react";
 import Header from "../components/Header";
 import { NotesContext } from "../contexts";
+import { nanoid } from 'nanoid';
 
 export const Route = createRootRoute({
   component: () => {
@@ -16,44 +16,26 @@ export const Route = createRootRoute({
       },
     ]);
 
-    // const [searchText, setSearchText] = useState("");
+    useEffect(() => {
+      // retrieve saved notes from localStorage
+      const savedNotes = JSON.parse(localStorage.getItem('react-notes-app-data'))
+
+      if (savedNotes) {
+        setNotes(savedNotes)
+      }
+    }, []) // empty dependency array runs once on first load
+
+    useEffect(() => {
+      // save notes to localStorage on every change of notes[]
+      localStorage.setItem('react-notes-app-data', JSON.stringify(notes))
+    }, [notes])
 
     const [darkMode, setDarkMode] = useState(false);
 
-    /* useEffect(() => {
-      const savedNotes = JSON.parse(
-        localStorage.getItem("react-notes-app-data"),
-      );
-
-      if (savedNotes) {
-        setNotes(savedNotes);
-      }
-    }, []); // empty dependency array runs once on first load
-
-    useEffect(() => {
-      localStorage.setItem("react-notes-app-data", JSON.stringify(notes));
-    }, [notes]); */
-
-    /* const addNote = (text) => {
-      const date = new Date();
-      const newNote = {
-        id: nanoid(),
-        text: text,
-        date: date.toLocaleDateString(),
-      };
-      const newNotes = [...notes, newNote];
-      setNotes(newNotes);
-    };
-
-    const deleteNote = (id) => {
-      const newNotes = notes.filter((note) => note.id !== id);
-      setNotes(newNotes);
-    }; */
-
-    const notesHook = useState([]);
+    // const notesHook = useState([]);
 
     return (
-      <NotesContext.Provider value={notesHook}>
+      <NotesContext.Provider value={[notes, setNotes]}>
         <div className={`${darkMode && "dark-mode"}`}>
           <div className="container">
             <Header handleToggleDarkMode={setDarkMode} />
@@ -64,16 +46,3 @@ export const Route = createRootRoute({
     );
   },
 });
-
-/*   what goes in Outlet:
- *   think i'll use context for these
-
-        <Search handleSearchNote={setSearchText} />
-        <NotesList
-          notes={notes.filter((note) =>
-            note.text.toLowerCase().includes(searchText),
-          )}
-          handleAddNote={addNote}
-          handleDeleteNote={deleteNote}
-        />
-*/

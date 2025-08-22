@@ -1,8 +1,27 @@
-import { useState } from "react";
+import { useState, useContext } from "react";
+import { createFileRoute } from "@tanstack/react-router";
+import { NotesContext } from "../contexts";
+import { nanoid } from 'nanoid';
 
-const AddNote = ({ handleAddNote }) => {
+export const Route = createFileRoute('/edit')({
+  component: AddNote,
+})
+
+function AddNote() {
   const [noteText, setNoteText] = useState("");
   const characterLimit = 200;
+  const [notes, setNotes] = useContext(NotesContext)
+
+  const handleAddNote = (text) => {
+    const date = new Date()
+    const newNote = {
+      id: nanoid(),
+      text: text,
+      date: date.toLocaleDateString(),
+    }
+    const newNotes = [...notes, newNote]
+    setNotes(newNotes)
+  }
 
   const handleChange = (event) => {
     if (characterLimit - event.target.value.length >= 0) {

@@ -19,26 +19,22 @@ const AddNote = ({ handleAddNote }) => {
 
   return (
     <div className="note new">
-      create new note
+      <textarea
+        rows="8"
+        cols="10"
+        placeholder="type to add a note..."
+        value={noteText}
+        onChange={handleChange}
+      ></textarea>
+      <div className="note-footer">
+        <small>{characterLimit - noteText.length} remaining</small>
+        <button className="save" onClick={handleSaveClick}>
+          Save
+        </button>
+      </div>
     </div>
   );
 };
-
-
-
-/* <textarea
-  rows="8"
-  cols="10"
-  placeholder="type to add a note..."
-  value={noteText}
-  onChange={handleChange}
-></textarea>
-<div className="note-footer">
-  <small>{characterLimit - noteText.length} remaining</small>
-  <button className="save" onClick={handleSaveClick}>
-    Save
-  </button>
-</div> */
 
 
 export default AddNote;
